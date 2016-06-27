@@ -1,0 +1,6 @@
+{
+  "mongoose": {
+    "uri": "mongodb://localhost/hapNodeJSMQTT",
+    "port": 1883
+  }
+}

@@ -8,6 +8,8 @@
     "debug": "^2.2.0",
     "ed25519": "git://github.com/KhaosT/ed25519",
     "mdns": "^2.3.2",
+    "mosca": "^2.0.1",
+    "nconf": "^0.8.4",
     "node-persist": "^0.0.8",
     "srp": "git://github.com/KhaosT/node-srp"
   },
