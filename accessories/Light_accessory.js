@@ -27,7 +27,7 @@ var FAKE_LIGHT = {
 var lightUUID = uuid.generate('hap-nodejs:accessories:light');
 
 // This is the Accessory that we'll return to HAP-NodeJS that represents our fake light.
-var light = exports.accessory = new Accessory('Light', lightUUID);
+var light = exports.accessory = new Accessory('LightXYZ', lightUUID);
 
 // Add properties for publishing (in case we're using Core.js and not BridgedCore.js)
 light.username = "1A:2B:3C:4D:5E:FF";
