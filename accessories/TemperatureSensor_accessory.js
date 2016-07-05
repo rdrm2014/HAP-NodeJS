@@ -1,3 +1,15 @@
+var src = process.cwd() + '/';
+var config = require(src + '/config/config');
+// MQTT Setup
+var mqtt = require('mqtt');
+var options = {
+    port: config.get('mongoose:port'),
+    host: config.get('mongoose:uri'),
+    clientId: 'Home_NewLight'
+};
+var client = mqtt.connect(options);
+//console.log("NewLight Connected to MQTT broker");
+
 var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
@@ -5,15 +17,17 @@ var uuid = require('../').uuid;
 
 // here's a fake temperature sensor device that we'll expose to HomeKit
 var FAKE_SENSOR = {
-  currentTemperature: 50,
-  getTemperature: function() { 
-    console.log("Getting the current temperature!");
-    return FAKE_SENSOR.currentTemperature;
-  },
-  randomizeTemperature: function() {
-    // randomize temperature to a value between 0 and 100
-    FAKE_SENSOR.currentTemperature = Math.round(Math.random() * 100);
-  }
+    currentTemperature: 0,
+    getTemperature: function () {
+        console.log("Getting the current temperature!");
+        return FAKE_SENSOR.currentTemperature;
+    },
+    randomizeTemperature: function () {
+        // randomize temperature to a value between 0 and 100
+        var current = Math.round(Math.random() * 100);
+        FAKE_SENSOR.currentTemperature = current;
+        client.publish('Temperature', String(current));
+    }
 }
 
 
@@ -32,22 +46,22 @@ sensor.pincode = "031-45-154";
 // Add the actual TemperatureSensor Service.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 sensor
-  .addService(Service.TemperatureSensor)
-  .getCharacteristic(Characteristic.CurrentTemperature)
-  .on('get', function(callback) {
-    
-    // return our current value
-    callback(null, FAKE_SENSOR.getTemperature());
-  });
+    .addService(Service.TemperatureSensor)
+    .getCharacteristic(Characteristic.CurrentTemperature)
+    .on('get', function (callback) {
+
+        // return our current value
+        callback(null, FAKE_SENSOR.getTemperature());
+    });
 
 // randomize our temperature reading every 3 seconds
-setInterval(function() {
-  
-  FAKE_SENSOR.randomizeTemperature();
-  
-  // update the characteristic value so interested iOS devices can get notified
-  sensor
-    .getService(Service.TemperatureSensor)
-    .setCharacteristic(Characteristic.CurrentTemperature, FAKE_SENSOR.currentTemperature);
-  
+setInterval(function () {
+
+    FAKE_SENSOR.randomizeTemperature();
+
+    // update the characteristic value so interested iOS devices can get notified
+    sensor
+        .getService(Service.TemperatureSensor)
+        .setCharacteristic(Characteristic.CurrentTemperature, FAKE_SENSOR.currentTemperature);
+
 }, 3000);

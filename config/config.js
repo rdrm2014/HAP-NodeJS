@@ -5,9 +5,6 @@
 var nconf = require('nconf');
 var src = process.cwd() + '/';
 
-
-console.log("Location: " + src);
-
 nconf.argv()
     .env()
     .file({
