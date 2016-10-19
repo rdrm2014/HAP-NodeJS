@@ -1,14 +1,17 @@
 var Accessory = require('./lib/Accessory.js').Accessory;
 var Bridge = require('./lib/Bridge.js').Bridge;
+var Camera = require('./lib/Camera.js').Camera;
 var Service = require('./lib/Service.js').Service;
 var Characteristic = require('./lib/Characteristic.js').Characteristic;
 var uuid = require('./lib/util/uuid');
 var AccessoryLoader = require('./lib/AccessoryLoader.js');
+var StreamController = require('./lib/StreamController.js').StreamController;
 var storage = require('node-persist');
 
 // ensure Characteristic subclasses are defined
 var HomeKitTypes = require('./lib/gen/HomeKitTypes');
 
+<<<<<<< HEAD
 //MQTT (Mosca)
 var src = process.cwd() + '/';
 var config = require(src + '/config/config');
@@ -48,6 +51,18 @@ function setup() {
     //server.authorizeSubscribe = authSystem.authorizeSubscribe();
     //server.authorizePublish = authSystem.authorizePublish();
     console.log('Mosca server is up and running')
+=======
+module.exports = {
+  init: init,
+  Accessory: Accessory,
+  Bridge: Bridge,
+  Camera: Camera,
+  Service: Service,
+  Characteristic: Characteristic,
+  uuid: uuid,
+  AccessoryLoader: AccessoryLoader,
+  StreamController: StreamController
+>>>>>>> KhaosT/master
 }
 
 server.on('clientConnected', function (client) {
